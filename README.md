@@ -1,97 +1,32 @@
 # yodo1-android-sdk-manual
 
-Android Access documentation
-Version number	Modifications	Author	Date
-1.0 alpha	First created	ZhangJianqiu	10 Aug 2021
- 	 		 
-Catalogue
-Android Access documentation.doc	1
-I. Yodo1 sdk Introduction	3
-1. Domestic release background	3
-2. yodo1 sdk structure and interface description	3
-3. Related Downloads	4
-II. Related configuration and introduction of initialization	4
-1.manifest configuration	4
-2.sdk introduction	5
-3. sdk initialisation	7
-III. Access to account functions	9
-1.Login function - (mandatory)	9
-2．Submit Player Information - (mandatory)	9
-3. Logout function	10
-4. Switching accounts	10
-5. check if you are logged in	10
-6. open the leaderboard	10
-7. open the achievement list	10
-8. Update player scores	11
-IV. Anti-addiction access	11
-1. Initialising the anti-addiction system - (mandatory)	12
-2. Real Name Authentication - (mandatory)	13
-3. Players log in and log off - (mandatory)	13
-4. Payment verification - (mandatory with Iap)	14
-5. Goods shipped on the report - (with Iap must pick up)	14
-V. commodity purchase function access (with Iap then must access)	14
-1. billing point configuration and billing point hosting	14
-2. Query all product information - (mandatory)	15
-3. Check for missed orders - (mandatory)	15
-4. Query for subscribed products	15
-5. get the specified product	16
-6. Resuming a purchase	16
-7. item purchase - (mandatory)	16
-8. Send Shipping Success Notification - (mandatory)	17
-9. Send Shipping Failure Notification - (mandatory)	17
-VI, advertising function access (if there is an ad then it’s mandatory)	17
-In general, the game can be accessed for inserts, video ads.	17
-1. Initialisation - (mandatory)	17
-2. Video Ads	18
-3. Interstitial ads	18
-4. Original Ads	18
-5. banner ad	19
-6. Grand Carousel function	19
-7. Configure EEA/GDPR/COPPA/NotSell tagging	19
-VII, Statistical Function Access	20
-1.	Sending custom events	20
-2.Recharge related - specific events	20
-VIII. Community sharing function access	21
-1. Call to share	21
-IX, In-app notification access	22
-1. Call the notification bar	22
-2.	Remove notification bar notifications	23
-X. Others	23
-1. Exiting the game - (mandatory)	23
-2. get device id, SIM, country code, language, version number, etc.	23
-3, Get current channels	24
-4. open the web page	24
-5. in-app cache	24
-6. Querying and accessing the privacy agreement and user agreement - (mandatory for using yodo1 rules)	24
-7. Activation code verification	25
-8. More games	25
-9. Game Community	25
-10. Game forums	26
-11. Developer markup	26
 
+## 一. Yodo1 sdk Introduction
+###### 1.Domestic release background
 
-I. Yodo1 sdk Introduction
-1. Domestic release background
-     There are many domestic distribution channels, and the content and number of interfaces defined by each vendor varies. yodo1 sdk has made compatible adaptations and packaging for each vendor's sdk as far as possible. Each vendor has different requirements for the interfaces that must be accessed, and the return value types of the same meaningful interfaces may also be different. Developers are advised to focus on understanding this. Also game access factory, in order to be compatible with as many types of processing as possible, it is recommended to use as broad as possible interaction processing.
-        Mandatory functions are those that must be accessed by the game and processed through the entire process. Features that are not marked as mandatory are not mandatory, and are either selected for access based on a specific vendor, or based on the type of cooperation with the vendor. In principle, accessing only mandatory features will guarantee a problem-free launch. Game developers are advised to access as many features as possible, depending on the in-game functionality. It is important to note that some features are simply packaged bridges and the exact implementation depends on whether the three party vendor already supports them. It is also recommended in development to handle post-call processing as broadly as possible.
-      If the game has no advertising business, the advertising functionality can be ignored altogether. If the game has no in-app payment requirements, the iap function can be ignored altogether. Non-mandatory features can also be implemented by the game itself.
-        The key point is that all games released in China, regardless of type and source, must be connected to the anti-addiction system. The second point is that all games must be legally compliant, improve the game's privacy document and user agreement document. yodo1 sdk has developed a general and broad agreement content, if the game has special permission data acquisition and other operations, please explain clearly in the privacy document.
- 2. yodo1 sdk structure and interface description
-        The yodo1 sdk is divided into three modules, yodo1 channels, yodo1 ads, and yodo1 anti-addiction. The game accesses the bridge.aar of the three modules' functions and is then transferred to the yodo1 system for later operations. Only then can they go live quickly.
-        There are three types of interfaces to call: those with a return value, those without a return value and without callbacks, and those without a return value and with callbacks.
-- Those with a return value: these are the simplest interfaces to call, returning the required data without delay and without interaction.
-- No return value without callback: such interfaces are generally information reporting interfaces, even if designed with callback data can be ignored to deal with.
-- No return value with callbacks: the mandatory interface is generally this type of interface, encapsulating the data type required for the interface to be called. In the registered dependencies, the business type is determined and the business logic is processed.
-      As the yodo1 sdk is derived from the company's internal sdk, which mainly uses the Unity engine, there is still a lot of Unity naming and calling rules in the code. Note that the gameObject and callbackName parameters are currently free to be named when called, and the same gameObject and callbackName can be determined in the callback first.  
-3. Related Downloads
-        yodo1_ChannelBridge.aar
-        mas-unity-bridge.aar
-        anti-unity-bridge.aar
-（The attachment is in the zip package）
-II. Related configuration and introduction of initialization
-1.manifest configuration
-      Many components are configured to be integrated into the game through indirect dependencies. The upper level of the game requires the configuration of several components as shown below.
+- There are many domestic distribution channels, and the content and number of interfaces defined by each vendor varies. yodo1 sdk has made compatible adaptations and packaging for each vendor's sdk as far as possible. Each vendor has different requirements for the interfaces that must be accessed, and the return value types of the same meaningful interfaces may also be different. Developers are advised to focus on understanding this. Also game access factory, in order to be compatible with as many types of processing as possible, it is recommended to use as broad as possible interaction processing.
+- Mandatory functions are those that must be accessed by the game and processed through the entire process. Features that are not marked as mandatory are not mandatory, and are either selected for access based on a specific vendor, or based on the type of cooperation with the vendor. In principle, accessing only mandatory features will guarantee a problem-free launch. Game developers are advised to access as many features as possible, depending on the in-game functionality. It is important to note that some features are simply packaged bridges and the exact implementation depends on whether the three party vendor already supports them. It is also recommended in development to handle post-call processing as broadly as possible.
+- If the game has no advertising business, the advertising functionality can be ignored altogether. If the game has no in-app payment requirements, the iap function can be ignored altogether. Non-mandatory features can also be implemented by the game itself.
+- The key point is that all games released in China, regardless of type and source, must be connected to the anti-addiction system. The second point is that all games must be legally compliant, improve the game's privacy document and user agreement document. yodo1 sdk has developed a general and broad agreement content, if the game has special permission data acquisition and other operations, please explain clearly in the privacy document.
+        
+###### 2. yodo1 sdk structure and interface description
+- The yodo1 sdk is divided into three modules, yodo1 channels, yodo1 ads, and yodo1 anti-addiction. The game accesses the bridge.aar of the three modules' functions and it needs to be packaged again by the yodo1 backend system before it can online. Please contact us for this part of the operation.
+- There are three types of interfaces to call: those with a return value, those without a return value and without callbacks, and those without a return value and with callbacks.
+  - Those with a return value: these are the simplest interfaces to call, returning the required data without delay and without interaction.
+  - No return value without callback: such interfaces are generally information reporting interfaces, even if designed with callback data can be ignored to deal with.
+  - No return value with callbacks: the mandatory interface is generally this type of interface, encapsulating the data type required for the interface to be called. In the registered dependencies, the business type is determined and the business logic is processed.
+- ***As the yodo1 sdk is derived from the company's internal sdk, which mainly uses the Unity engine, there is still a lot of Unity naming and calling rules in the code. Note that the gameObject and callbackName parameters are currently free to be named when called, and the same gameObject and callbackName can be determined in the callback first.*** 
+###### 3. Related bridge file(Please contact our developers to request)
+- yodo1_ChannelBridge.aar
+- mas-unity-bridge.aar
+- anti-unity-bridge.aar
+
+## 二. Related configuration and introduction of initialization
+
+###### 1.manifest configuration
+- Many components are configured to be integrated into the game through indirect dependencies. The upper level of the game requires the configuration of several components as shown below.
 Examples are as follows.
+```JAR Manifest
 <! -1, the game must be configured with application name or indirectly inheritance to implement "com.yodo1.android.sdk.Yodo1Application" --> 
 <application
             android:name="com.yodo1.android.sdk.Yodo1Application"
@@ -130,16 +65,19 @@ Examples are as follows.
         android:name="Yodo1SDKType"
         android:value="Yodo1SDKtype_value"
         tools:replace="android:value"/>
-</application>    
-2.sdk introduction
-Download the three aar files, configure the dependency in gradle, and type in the three aar files.
-    api fileTree(include: ['*.jar','*.aar'], dir: 'libs')
+</application>  
+```
+###### 2.sdk introduction
+configure the dependency in gradle, and type in the three aar files.
+```Gradle
+     api fileTree(include: ['*.jar','*.aar'], dir: 'libs')
 or
-      implementation(name: 'anti-unity-bridge', ext:'aar')
-      implementation(name: 'mas-unity-bridge', ext:'aar')
-      implementation(name: 'yodo1_ChannelBridge', ext:'aar')
-       Life cycle dependent calls, where the game accessor needs to inject life api calls into each declaration cycle in the main game Activity.
-
+     implementation(name: 'anti-unity-bridge', ext:'aar')
+     implementation(name: 'mas-unity-bridge', ext:'aar')
+     implementation(name: 'yodo1_ChannelBridge', ext:'aar')
+```
+Life cycle dependent calls, where the game accessor needs to inject life api calls into each declaration cycle in the main game Activity.
+```Java
 @Override
 protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -222,9 +160,10 @@ public void onConfigurationChanged(Configuration configuration) {
     super.onConfigurationChanged(configuration);
     Yodo1BridgeUtils.onActivityConfigurationChanged(this, configuration);
 }
-
-3. sdk initialisation 
-        The yodo1 sdk contains three separate modules, which are initialised separately. If there are no special circumstances, do not change the order of initialisation.
+```
+###### 3. sdk initialisation 
+- The yodo1 sdk contains three separate modules, which are initialised separately. If there are no special circumstances, do not change the order of initialisation.
+```Java
 /**
 * gameSdk initialisation
 */
@@ -239,7 +178,10 @@ UnityYodo1Mas.initSDK(activity,'appkey');
 * Anti-addiction initialization. See the Anti-addiction chapter initialisation section for code details
 */
 Yodo1AntiAddiction.init(activity,'appkey',....);
-      Register the callback bus and all callbacks will return data from the callback bus：
+```
+- Register the callback bus and all callbacks will return data from the callback bus：
+```Java
+//Arg1 and agr2 are the gameobject and callbackname, you can define by your-self and in callback you use them to judge which method it is . 
 //game sdk callback
 Yodo1GameSDK.setCallBack(new IYodo1CallBack() {
     @Override
@@ -286,13 +228,14 @@ Yodo1AntiAdapter.setCallback(new IYodo1CallBack() {
         //some
     }
 });
-
-III. Access to account functions
-1.Login function - (mandatory) , must be called in the main thread
+```
+## 三. Access to account functions
+###### 1.Login function - (***mandatory***) , must be called in the main thread
+```Java
 /**
- * Login
+ * Login   you can get channelCode from method Yodo1GameUtils.getPublishChannelCode();
  *
-* @param loginType 1, channel login; 0, device login. No special cases use 1 (currently only domestic UC channels take device login, channelcode="UC")
+* @param loginType   0: channel login; 1: device login. No special cases use 0 (Now if channel code is 4399ad,4399dd,233XYX2,UC, need to go device login)
  * @param extra  Normal is empty. Currently there is only one special case, the TXYYB channel, 1 for WeChat login and 2 for QQ login.
  * @param gameObjcet
  * @param callback
@@ -300,50 +243,66 @@ III. Access to account functions
 Yodo1UserCenter.login(loginType,extra,gameobject,callback);
 //or sdk internal determination to go channel login.
 Yodo1UserCenter.login(gameobject,callback);
-The data structure of the callback is.
-{"data":{"playerId":"864166039790427","userId":"5e57a5420c14952e1e3ab774","nickName":"864166039790427","level":1,"age":0,"gender":0,"thirdpartyChannel":0},"resulType":3001,"error_code":0,"code":1} 
-2．Submit Player Information - (mandatory)
-After a successful login, the game processes the upload to the sdk and channel sdk according to its own logic, robust to the logic that follows./**
+```
+> The data structure of the callback is.
+>{"data": {"playerId":"864166039790427","userId":"5e57a5420c14952e1e3ab774","nickName":"864166039790427","level":1,"age":0,"gender":0,"thirdpartyChannel":0},"resulType":3001,"error_code":0,"code":1} 
+###### 2.Submit Player Information - (***mandatory***)
+After a successful login, the game processes the upload to the sdk and channel sdk according to its own logic, robust to the logic that follows.
+```Java
+/**
 * [{"playerId":"864166039790427","userId":null,"nickName":"864166039790427","level":1,"age":0,"gender":0,"gameServerId":null,"thirdpartyUid":null,"thirdpartyToken":null,
  * "thirdpartyChannel":0,"partyid":0,"partyname":null,"partyroleid":0,"partyrolename":null,
  * "power":0,"type":"enterServer","roleCTime":0}]
 */
 Yodo1UserCenter.sumbitUser(json);
-3. Logout function
+```
+###### 3. Logout function
+```Java
 /**
 * Logout
 */
 Yodo1UserCenter.logout(gameObject,callbackName);
+```
 The data structure of the callback is.
 //???
-4. Switching accounts
+###### 4. Switching accounts
+```Java
 /**
 * Switching accounts
 */
 Yodo1UserCenter.changeAccount(gameObject,callbackName);
+```
 The data structure of the callback is the same as the callback when logging in.
-5. check if you are logged in
+###### 5. check if you are logged in
+```Java
 /**
 * Check if you are logged in
 */
 boolean isloogin = Yodo1UserCenter.isLogin();
-6. open the leaderboard
+```
+###### 6.open the leaderboard
+```Java
 /**
 * Open the leaderboard. Currently only googlePlay,appleStore and a few other channels have this feature
 */
 Yodo1UserCenter.leaderboardsOpen();
-7. open the achievement list
+```
+###### 7.open the achievement list
+```Java
 /**
 * Open the achievement list. Currently only googlePlay, appleStore and a few other channels have this function
 */
 Yodo1UserCenter.achievementsOpen(); 
-     
-8. Update player scores
+```
+###### 8.Update player scores
+```Java
 /**
 * Update player scores, currently only googlePlay, appleStore, huawei and a few other channels have this feature
 */
 Yodo1UserCenter.updateScore(String scoreId, long score);
-9. Achievement level unlocking and getting level
+```
+###### 9.Achievement level unlocking and getting level
+```Java
 /**
 * Achievement level unlocking
 */
@@ -352,9 +311,10 @@ Yodo1UserCenter.achievementsUnlock(String achievementStr, int step);
 * Get the achievement level
 */
 Yodo1UserCenter.getAchievementSteps(String gameObjcetName, String callbackName).
-The data structure of the callback is.
-//?
-10. Cloud Archive
+```
+
+###### 10.Cloud Archive
+```Java
 /**
 * Cloud archive, currently only a few channels such as googlePlay,appleStore have this function
 */
@@ -363,9 +323,9 @@ Yodo1UserCenter.saveToCloud(String saveName, String saveValue);
 * Get the cloud archive data
 */
 Yodo1UserCenter.loadToCloud(String name, String gameObjcetName, String callbackName);
-The data structure of the callback is.
-//?
-11. Game recording
+```
+###### 11.Game recording
+```Java
 /**
 * Whether recording is supported, currently only GooglePlay is supported
 */
@@ -374,23 +334,25 @@ boolean isCan = Yodo1UserCenter.isCaptureSupported();
 * Show saved game footage
 */
 Yodo1UserCenter.showRecordVideo();* 
-IV. Anti-addiction access
-1. Initialising the anti-addiction system - (mandatory)
+```
+## IV. Anti-addiction access
+###### 1.Initialising the anti-addiction system - (***mandatory***)
 Before logging in, the anti-addiction system must be initialised. If the initialisation of the anti-addiction system fails, exit the game or call the initialisation again.
+```Java
 /**
  * @param activity       Activity
  * @param appKey         App key
  * @param extraSettings  Extra Settings,nullable
  */
 Yodo1AntiAddiction.Init(Activity activity, String appKey, String extraSettings, String gameObjectName, String callbackName);
+```
 The data structure of the callback is.
 Initialize onInitFinish, state true success, false failure.
-       Callback success:{\"result_type\":8001,\"state\":true,\"content\":\"initialization success\"}
-Player timeout onTimeLimitNotify, event_action==0 continue game, event_action==1 end game; event_code:11001 for played-time notification-minors,12001 for no-play-time notification-minors,11011 for played-time notification-visitors ,12011 For Notification of No Play Time - Visitor,50005 Generated by the third party channel SDK.
-        Callbacks: eg:{\"result_type\":8005,\"event_action\":0,\"event_code\":\"Connection Exception\",\"title\":\"Connection Exception\",\"content\":\"Player not successfully online. Ending game. \"}
+> Callback success:{\"result_type\":8001,\"state\":true,\"content\":\"初始化成功\"}
 
-Network connection onPlayerDisconnection, triggered when a player drops the connection and the anti-addiction system fails to count correctly. The *accessor should initiate a call to the online interface to try to get online until success is returned to allow the player to continue playing.
-         Callbacks: eg:{\"result_type\":8005,\"title\":\"Connection exception\",\"content\":\"The player was not successfully online. Ending game. \"}
+Player timeout onTimeLimitNotify, event_action==0 continue game, event_action==1 end game; event_code:11001 for played-time notification-minors,12001 for no-play-time notification-minors,11011 for played-time notification-visitors ,12011 For Notification of No Play Time - Visitor,50005 Generated by the third party channel SDK.
+> Callbacks: eg:{\"result_type\":8005,\"event_action\":0,\"event_code\":\"连接异常\",\"title\":\"连接异常\",\"content\":\"玩家未成功上线结束游戏\"}
+
 流程图：
 
 2. Real Name Authentication - (mandatory)
