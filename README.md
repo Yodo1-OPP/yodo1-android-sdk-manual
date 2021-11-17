@@ -235,7 +235,7 @@ Yodo1AntiAdapter.setCallback(new IYodo1CallBack() {
 /**
  * Login   you can get channelCode from method Yodo1GameUtils.getPublishChannelCode();
  *
-* @param loginType   0: channel login; 1: device login. No special cases use 0 (Now if channel code is 4399ad,4399dd,233XYX2,UC, need to go device login)
+* @param loginType   0: channel login; 1: device login. No special cases use 0 (Now if channel code is 4399ad,4399dd,233XYX2, need to go device login)Subject to change, contact * the developer when accessing
  * @param extra  Normal is empty. Currently there is only one special case, the TXYYB channel, 1 for WeChat login and 2 for QQ login.
  * @param gameObjcet
  * @param callback
