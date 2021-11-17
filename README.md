@@ -241,8 +241,6 @@ Yodo1AntiAdapter.setCallback(new IYodo1CallBack() {
  * @param callback
  */
 Yodo1UserCenter.login(loginType,extra,gameobject,callback);
-//or sdk internal determination to go channel login.
-Yodo1UserCenter.login(gameobject,callback);
 ```
 > The data structure of the callback is.
 >{"data": {"playerId":"864166039790427","userId":"5e57a5420c14952e1e3ab774","nickName":"864166039790427","level":1,"age":0,"gender":0,"thirdpartyChannel":0},"resulType":3001,"error_code":0,"code":1} 
