@@ -232,7 +232,7 @@ Yodo1AntiAdapter.setCallback(new IYodo1CallBack() {
     }
 });
 ```
-## 三. Access to account functions
+## Ⅲ.Access to account functions
 ### 1.Login function - (***mandatory***) , must be called in the main thread
 ```Java
 /**
