@@ -368,8 +368,8 @@ Yodo1AntiAddiction.VerifyCertificationInfo(String accountId, String gameObjectNa
 The data structure of the callback is
 > Authentication success：{\"result_type\":8003,\"event_action\":0}
 > Authentication fail:{\"result_type\":8002,\"event_action\":0,\"event_code\":0,"title":"asdfasd","content":"asdfasdf"}
-> if authentication fail you should display the UI with the returned title and content, then exit the game.
-> the code 8002 is not only at the time of real name verification, but may also happen during the game runtime, and is triggered by the sdk actively. So if you encounter the code 8002 in the callback, please execute the same logic as above
+> If authentication fail you should display the UI with the returned title and content, then exit the game.
+> The code 8002 is not only at the time of real name verification, but may also happen during the game runtime, and is triggered by the sdk actively. So if you encounter the code 8002 in the callback, please execute the same logic.
 ### 3.Players log in and log off
 The token for calculating the player's accumulated hours. sdk already handles the application level declaration cycle internally, the game only needs to handle the time period defined as the accumulated hours in its own game logic.
 ```Java
