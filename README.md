@@ -257,14 +257,38 @@ After a successful login, the game processes the upload to the sdk and channel s
 */
 Yodo1UserCenter.sumbitUser(json);
 ```
-### 3. check if you are logged in
+### 3.More games(***mandatory***)
+Some domestic channels support more games to facilitate promotional pulling. Get higher recommendations.
+```Java
+/**
+ * More games, before calling, determine whether the function is available, domestic oppo super casual channel must have this option
+ * if the hasMoreGame() return true , there should have an button ui to attach moreGame() method
+ * Chinese show for 更多精彩
+ */
+Yodo1GameUtils.hasMoreGame();
+Yodo1GameUtils.moreGame();
+```
+### 4. Exiting the game - (***mandatory***)
+The game is to be accessed when it triggers an exit. A successful callback will allow the actual execution of the exit code or suicide.
+```Java
+/**
+ * Quit the game
+ */
+Yodo1GameUtils.exit(String gameObject, String callbackName);
+```
+The data structure of the callback is.
+> //eg: exit successful : {"code":1}
+
+### 5. check if you are logged in
 ```Java
 /**
 * Check if you are logged in
 */
 boolean isloogin = Yodo1UserCenter.isLogin();
 ```
-### 4. Logout function
+
+
+### 6. Logout function
 ```Java
 /**
 * Logout
@@ -273,7 +297,7 @@ Yodo1UserCenter.logout(gameObject,callbackName);
 ```
 The data structure of the callback is.
 //???
-### 5. Switching accounts
+### 7. Switching accounts
 ```Java
 /**
 * Switching accounts
@@ -282,28 +306,28 @@ Yodo1UserCenter.changeAccount(gameObject,callbackName);
 ```
 The data structure of the callback is the same as the callback when logging in.
 
-### 6.open the leaderboard
+### 8.open the leaderboard
 ```Java
 /**
 * Open the leaderboard. Currently only googlePlay,appleStore and a few other channels have this feature
 */
 Yodo1UserCenter.leaderboardsOpen();
 ```
-### 7.open the achievement list
+### 9.open the achievement list
 ```Java
 /**
 * Open the achievement list. Currently only googlePlay, appleStore and a few other channels have this function
 */
 Yodo1UserCenter.achievementsOpen(); 
 ```
-### 8.Update player scores
+### 10.Update player scores
 ```Java
 /**
 * Update player scores, currently only googlePlay, appleStore, huawei and a few other channels have this feature
 */
 Yodo1UserCenter.updateScore(String scoreId, long score);
 ```
-### 9.Achievement level unlocking and getting level
+### 11.Achievement level unlocking and getting level
 ```Java
 /**
 * Achievement level unlocking
@@ -315,7 +339,7 @@ Yodo1UserCenter.achievementsUnlock(String achievementStr, int step);
 Yodo1UserCenter.getAchievementSteps(String gameObjcetName, String callbackName).
 ```
 
-### 10.Cloud Archive
+### 12.Cloud Archive
 ```Java
 /**
 * Cloud archive, currently only a few channels such as googlePlay,appleStore have this function
@@ -326,7 +350,7 @@ Yodo1UserCenter.saveToCloud(String saveName, String saveValue);
 */
 Yodo1UserCenter.loadToCloud(String name, String gameObjcetName, String callbackName);
 ```
-###  11.Game recording
+###  13.Game recording
 ```Java
 /**
 * Whether recording is supported, currently only GooglePlay is supported
@@ -338,6 +362,7 @@ boolean isCan = Yodo1UserCenter.isCaptureSupported();
 Yodo1UserCenter.showRecordVideo();
 ```
 ## IV. Anti-addiction access
+
 ### 1.Initialising the anti-addiction system - (***mandatory***)
 Before logging in, the anti-addiction system must be initialised. If the initialisation of the anti-addiction system fails, exit the game or call the initialisation again.
 ```Java
@@ -366,10 +391,14 @@ After successful login, call the real name authentication interface.
 Yodo1AntiAddiction.VerifyCertificationInfo(String accountId, String gameObjectName, String callbackName);
 ```
 The data structure of the callback is
-> Authentication success：{\"result_type\":8003,\"event_action\":0}
-> Authentication fail:{\"result_type\":8002,\"event_action\":0,\"event_code\":0,"title":"example","content":"example"}
-> If authentication fail you should display the UI with the returned title and content, then exit the game.
-> **The code 8002 is not only at the time of real name verification, but may also happen during the game runtime, and is triggered by the sdk actively. So if you encounter the code 8002 in the callback, please execute the same logic.**
+> Authentication success：{\"result_type\":8003,\"event_action\":0}.
+> Other event_action represent fail
+
+### Note: 
+> in anti-addiction system if there return {\"result_type\":8002,\"event_action\":0,\"event_code\":0,"title":"example","content":"example"}.
+> You should display the UI with the returned title and content, then exit the game.
+> The code 8002 is not only at the time of begain game, but may also happen during the game runtime, and is triggered by the sdk actively. So if you encounter the code 8002 in the callback, please execute the same logic.
+
 ### 3.Players log in and log off
 The token for calculating the player's accumulated hours. sdk already handles the application level declaration cycle internally, the game only needs to handle the time period defined as the accumulated hours in its own game logic.
 ```Java
@@ -403,7 +432,111 @@ Anti-addiction payment amount is not limited to.{\"result_type\":8004,\"state\":
  */
 Yodo1AntiAddiction.ReportProductReceipt(String receipt);
 ```
-## V.commodity purchase function access (with Iap then must access)
+## V.advertising function access (***if there is an ad then it’s mandatory***)
+In general, the game can be accessed for inserts, video ads.
+### 1.Initialisation - (mandatory)
+Called in the main Activity onCreate.
+```Java
+/**
+ * initialise
+ */
+UnityYodo1Mas.initSDK(Activity activity, String appKey);
+```
+### 2.Video Ads
+```Java
+UnityYodo1Mas.videoIsReady(String gameObject, String callbackName);
+```
+> //it will return a bool value
+```Java
+/**
+ * Video ads are displayed. **Determine videoIsReady before displaying every time.** handle the reward after the ad.
+ */
+UnityYodo1Mas.showVideo(String gameObject, String callbackName);
+```
+The data structure of the callback is.
+> //playback complete: {"resulType":1003, "code":1}
+> //other code means faile
+### 3.Interstitial ads
+```Java
+UnityYodo1Mas.interstitialIsReady().
+/**
+ * Interstitial ads. **Determine interstitialIsReady before displaying every time** handle the reward after the ad.
+ */
+UnityYodo1Mas.showInterstitial(String gameObject, String callbackName) ;
+```
+The data structure of the showInterstitial callback is.
+> //playback complete: {"resulType":1002, "code":0}      
+> //other code means faile
+### 4.Original Ads
+```Java
+/**
+ * Show the original ad. native ads. Determine nativeIsReady before showing. handle rewards after the ad.
+ *
+ * @param px The X coordinates for native ads
+ * @param py The Y coordinates for native ads
+ * @param pw The Width of native ads
+ * @param ph The height of native ads
+ */
+UnityYodo1Mas.showNativeAd(String gameObject, float px, float py, float pw, float ph, String callbackName);
+UnityYodo1Mas.nativeIsReady();
+/**
+ * Remove native ad, Remove original ad.
+**/
+UnityYodo1Mas.removeNativeAd();
+```
+The data structure of the showNativeAd callback is.
+> // play complete: {"resulType":1005, "code":1}
+### 5. banner ad
+```Java
+/**
+ * Show banner ad. determine bannerIsReady() before displaying. Handle the reward after the ad.
+ *
+ */
+UnityYodo1Mas.showBanner(String gameObject, String callbackName);
+UnityYodo1Mas.bannerIsReady();
+/**
+ * Remove banner ad, Remove banner ad.
+**/
+UnityYodo1Mas.removeBanner();
+/**
+ * hide banner ad, Remove banner ad.
+**/
+UnityYodo1Mas.hideBanner();
+```
+The data structure of the showBanner callback is.
+> // play complete: {"resulType":1001, "code":1}
+### 6.Grand Carousel function
+Give players rewards by showing the configured Grand Carousel interface method.
+```Java
+/**
+ * Show the Big Spin function. Determine if it is enabled before calling. isRewardGameEnable
+ */
+UnityYodo1Mas.showRewardGame(String gameObject, String callbackName);
+UnityYodo1Mas.isRewardGameEnable();
+```
+The data structure of the showRewardGame callback is.
+> //play completion: {"resulType":1007, "code":1}      
+
+### 7.Configure EEA/GDPR/COPPA/NotSell tagging
+```Java
+/**
+ * SDK requires that publishers set a flag indicating whether a user located in the European Economic Area (i.e., EEA/GDPR data subject) has provided opt-in consent for the  collection and use of personal data.
+ */
+UnityYodo1Mas.setUserConsent(boolean consent);
+/**
+ * To ensure COPPA, GDPR, and Google Play policy compliance, you should indicate whether a user is a child.
+ *
+ * @param underAgeOfConsent true, If the user is known to be in an age-restricted category (i.e., under the age of 16), false otherwise.
+ */
+UnityYodo1Mas.setTagForUnderAgeOfConsent(boolean underAgeOfConsent);
+/**
+ * Publishers may choose to display a "Do Not Sell My Personal Information" link. Such publishers may choose to set a flag indicating whether a user located in California, USA has opted to not have their personal data sold.
+ *
+ * @param doNotSell true, If the user has opted out of the sale of their personal information, false otherwise.
+ */
+UnityYodo1Mas.setDoNotSell(boolean doNotSell);
+```
+## VI.commodity purchase function access (***with Iap then must access***)
 ### 1.billing point configuration and billing point hosting
 The iap commodity billing points for in-game goods are configured and placed separately in the project. Most of the channel packages, through the xml configuration that hit the package, to get the latest information about the price, name, description of the goods. One of the channels, Xiaomi, Huawei, googlePlay, etc., uses a billing point hosted on the channel server to get information about the product, or to initiate payment, based on the corresponding productId.
         IapConfig_sample.xls
@@ -496,110 +629,7 @@ Yodo1Purchase.sendGoodsFail(String[] orders);
 The data structure of the callback is.
 > // The call has a callback, which can be ignored.
 
-## VI.advertising function access (***if there is an ad then it’s mandatory***)
-In general, the game can be accessed for inserts, video ads.
-### 1.Initialisation - (mandatory)
-Called in the main Activity onCreate.
-```Java
-/**
- * initialise
- */
-UnityYodo1Mas.initSDK(Activity activity, String appKey);
-```
-### 2.Video Ads
-```Java
-/**
- * Video ads are displayed. Determine videoIsReady before displaying. handle the reward after the ad.
- */
-UnityYodo1Mas.showVideo(String gameObject, String callbackName);
-```
-The data structure of the callback is.
-> //playback complete: {"resulType":1003, "code":1}
-```Java
-UnityYodo1Mas.videoIsReady(String gameObject, String callbackName);
-```
-> //it will return a bool value
-### 3.Interstitial ads
-```Java
-/**
- * Interstitial ads. Determine interstitialIsReady before displaying. handle the reward after the ad.
- */
-UnityYodo1Mas.showInterstitial(String gameObject, String callbackName) ;
 
-UnityYodo1Mas.interstitialIsReady().
-```
-The data structure of the showInterstitial callback is.
-> //playback complete: {"resulType":1002, "code":1}      
-
-### 4.Original Ads
-```Java
-/**
- * Show the original ad. native ads. Determine nativeIsReady before showing. handle rewards after the ad.
- *
- * @param px The X coordinates for native ads
- * @param py The Y coordinates for native ads
- * @param pw The Width of native ads
- * @param ph The height of native ads
- */
-UnityYodo1Mas.showNativeAd(String gameObject, float px, float py, float pw, float ph, String callbackName);
-UnityYodo1Mas.nativeIsReady();
-/**
- * Remove native ad, Remove original ad.
-**/
-UnityYodo1Mas.removeNativeAd();
-```
-The data structure of the showNativeAd callback is.
-> // play complete: {"resulType":1005, "code":1}
-### 5. banner ad
-```Java
-/**
- * Show banner ad. determine bannerIsReady() before displaying. Handle the reward after the ad.
- *
- */
-UnityYodo1Mas.showBanner(String gameObject, String callbackName);
-UnityYodo1Mas.bannerIsReady();
-/**
- * Remove banner ad, Remove banner ad.
-**/
-UnityYodo1Mas.removeBanner();
-/**
- * hide banner ad, Remove banner ad.
-**/
-UnityYodo1Mas.hideBanner();
-```
-The data structure of the showBanner callback is.
-> // play complete: {"resulType":1001, "code":1}
-### 6.Grand Carousel function
-Give players rewards by showing the configured Grand Carousel interface method.
-```Java
-/**
- * Show the Big Spin function. Determine if it is enabled before calling. isRewardGameEnable
- */
-UnityYodo1Mas.showRewardGame(String gameObject, String callbackName);
-UnityYodo1Mas.isRewardGameEnable();
-```
-The data structure of the showRewardGame callback is.
-> //play completion: {"resulType":1007, "code":1}      
-
-### 7.Configure EEA/GDPR/COPPA/NotSell tagging
-```Java
-/**
- * SDK requires that publishers set a flag indicating whether a user located in the European Economic Area (i.e., EEA/GDPR data subject) has provided opt-in consent for the  collection and use of personal data.
- */
-UnityYodo1Mas.setUserConsent(boolean consent);
-/**
- * To ensure COPPA, GDPR, and Google Play policy compliance, you should indicate whether a user is a child.
- *
- * @param underAgeOfConsent true, If the user is known to be in an age-restricted category (i.e., under the age of 16), false otherwise.
- */
-UnityYodo1Mas.setTagForUnderAgeOfConsent(boolean underAgeOfConsent);
-/**
- * Publishers may choose to display a "Do Not Sell My Personal Information" link. Such publishers may choose to set a flag indicating whether a user located in California, USA has opted to not have their personal data sold.
- *
- * @param doNotSell true, If the user has opted out of the sale of their personal information, false otherwise.
- */
-UnityYodo1Mas.setDoNotSell(boolean doNotSell);
-```
 ## VII.Statistical Function Access
 ### 1.Sending custom events
 ```Java
@@ -721,17 +751,7 @@ Yodo1PushNotification.pushNotification(String notificationKey, String notificati
 Yodo1PushNotification.cancelNotification(String notificationKey, String notificationId);
 ```
 ## X.Others
-### 1. Exiting the game - (***mandatory***)
-The game is to be accessed when it triggers an exit. A successful callback will allow the actual execution of the exit code or suicide.
-```Java
-/**
- * Quit the game
- */
-Yodo1GameUtils.exit(String gameObject, String callbackName);
-```
-The data structure of the callback is.
-> //eg: exit successful : {"code":1}
-### 2.get device id, SIM, country code, language, version number, etc.
+### 1.get device id, SIM, country code, language, version number, etc.
 ```Java
 /**
  * Get the device id
@@ -756,14 +776,14 @@ Yodo1GameUtils.getVersion();
  */
 Yodo1GameUtils.IsChineseMainland(String ext);
 ```
-### 3.Get current channels
+### 2.Get current channels
 ```Java
 /**
  * Gets the current channel number.
  */
 Yodo1GameUtils.getPublishChannelCode();
 ````
-### 4.open the web page
+### 3.open the web page (If there is an operation to open a web page, please use this interface.//***mandatory***)
 ```Java
 /**
  * Open a three-way browser
@@ -774,7 +794,7 @@ Yodo1GameUtils.openReviewPage(String url);
  */
 Yodo1GameUtils.openWebPage(String url, String valuePaireJson);
 ```
-### 5.in-app cache
+### 4.in-app cache
 In-memory storage for easy execution of data during app survival and for easy data sharing between the game engine and native layer.
 ```Java
 /**
@@ -786,7 +806,7 @@ Yodo1GameUtils.saveToNativeRuntime(String key, String valuePaireJson);
  */
 Yodo1GameUtils.getNativeRuntime(String key);
 ```
-### 6.Querying and accessing the privacy agreement and user agreement - (***mandatory for using yodo1 rules***)
+### 5.Querying and accessing the privacy agreement and user agreement - (***mandatory for using yodo1 rules***)
 yodo1's internally configured privacy agreement, user agreement distribution interface.
 ```Java
 /**
@@ -808,7 +828,7 @@ Yodo1GameUtils.showUserPrivateInfoUI(final String gameObject, final String callb
 ```
 > The data structure of the queryUserAgreementHasUpdate callback is.
 > {"resulType":8002, "data":{"is_update":true, "child_age_limit":16, "url_terms": "https:\/\/gamepolicy.yodo1.com\/terms_of_Service_zh. html", "url_privacy": "https:\\/\/privacy.mi.com\/xiaomigame-sdk\/zh_CN\/"}}
-### 7.Activation code verification
+### 6.Activation code verification
 Generate some activation codes in bulk online for in-game rewards, reissues and other scenarios.
 ```Java
 /**
@@ -818,16 +838,8 @@ Yodo1GameUtils.verifyActivationcode(String activationCode, final String gameObje
 ```
 The data structure of the callback is.
 > //?
-### 8.More games(***mandatory***)
-Some domestic channels support more games to facilitate promotional pulling. Get higher recommendations.
-```Java
-/**
- * More games, before calling, determine whether the function is available, domestic oppo super casual channel must have this option
- */
-Yodo1GameUtils.moreGame();
-Yodo1GameUtils.hasMoreGame();
-```
-### 9.Game Community
+
+### 7.Game Community
 Some domestic channels support more games to facilitate the promotion of new pull. Get higher recommendations.
 ```Java
 /**
@@ -836,7 +848,7 @@ Some domestic channels support more games to facilitate the promotion of new pul
 Yodo1GameUtils.openCommunity();
 Yodo1GameUtils.hasCommunity() ;
 ```
-### 10.Game forums
+### 8.Game forums
 Some domestic channels support more games and facilitate promotion to pull new ones. Get higher recommendation.
 ```Java
 /**
@@ -848,7 +860,7 @@ Yodo1GameUtils.openBBS();
  */
 Yodo1GameUtils.openFeedback();
 ```
-### 11.Developer markup
+### 9.Developer markup
 ```Java
 /**
  * Get online parameters, value distribution. Easy to do cloud control
