@@ -21,8 +21,8 @@
 
 ### 3. Related bridge file(Please contact our developers to request)
 - [yodo1_ChannelBridge.aar](https://github.com/Yodo1-OPP/yodo1-android-sdk-manual/blob/main/ARR_Files/anti-unity-bridge.aar)
-- mas-unity-bridge.aar
-- anti-unity-bridge.aar
+- [mas-unity-bridge.aar](https://github.com/Yodo1-OPP/yodo1-android-sdk-manual/blob/main/ARR_Files/mas-unity-bridge.aar)
+- [anti-unity-bridge.aar](https://github.com/Yodo1-OPP/yodo1-android-sdk-manual/blob/main/ARR_Files/yodo1_ChannelBridge.aar)
 
 ## 二. Related configuration and introduction of initialization(***mandatory***)
 
