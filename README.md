@@ -20,7 +20,7 @@
 
 
 ### 3. Related bridge file(Please contact our developers to request)
-- yodo1_ChannelBridge.aar
+- [yodo1_ChannelBridge.aar](ARR_Files/anti-unity-bridge.aar)
 - mas-unity-bridge.aar
 - anti-unity-bridge.aar
 
@@ -71,7 +71,7 @@ Examples are as follows.
 </application>  
 ```
 ### 2.sdk introduction
-configure the dependency in gradle, and type in the three aar files.
+- configure the dependency in gradle, and type in the three aar files.
 ```Gradle
      api fileTree(include: ['*.jar','*.aar'], dir: 'libs')
 or
@@ -79,7 +79,7 @@ or
      implementation(name: 'mas-unity-bridge', ext:'aar')
      implementation(name: 'yodo1_ChannelBridge', ext:'aar')
 ```
-Life cycle dependent calls, where the game accessor needs to inject life api calls into each declaration cycle in the main game Activity.
+- Life cycle dependent calls, where the game accessor needs to inject life api calls into each declaration cycle in the main game Activity.
 ```Java
 @Override
 protected void onCreate(Bundle savedInstanceState) {
