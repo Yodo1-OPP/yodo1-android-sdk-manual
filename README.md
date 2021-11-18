@@ -446,21 +446,22 @@ UnityYodo1Mas.initSDK(Activity activity, String appKey);
 ```Java
 UnityYodo1Mas.videoIsReady(String gameObject, String callbackName);
 ```
-> //it will return a bool value
+> //it will return a bool value.Determine videoIsReady before displaying every time. 
 ```Java
 /**
- * Video ads are displayed. **Determine videoIsReady before displaying every time.** handle the reward after the ad.
+ * Video ads are displayed. 
  */
 UnityYodo1Mas.showVideo(String gameObject, String callbackName);
 ```
 The data structure of the callback is.
-> //playback complete: {"resulType":1003, "code":1}
+> //playback complete: {"resulType":1003, "code":1},This is when rewards are given to players
 > //other code means faile
 ### 3.Interstitial ads
 ```Java
 UnityYodo1Mas.interstitialIsReady().
+> //it will return a bool value. Determine interstitialIsReady before displaying every time.
 /**
- * Interstitial ads. **Determine interstitialIsReady before displaying every time** handle the reward after the ad.
+ * Interstitial ads. 
  */
 UnityYodo1Mas.showInterstitial(String gameObject, String callbackName) ;
 ```
