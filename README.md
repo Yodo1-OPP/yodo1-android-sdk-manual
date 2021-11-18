@@ -21,7 +21,7 @@
 - mas-unity-bridge.aar
 - anti-unity-bridge.aar
 
-## 二. Related configuration and introduction of initialization
+## 二. Related configuration and introduction of initialization(***mandatory***)
 
 ### 1.manifest configuration
 - Many components are configured to be integrated into the game through indirect dependencies. The upper level of the game requires the configuration of several components as shown below.
@@ -161,7 +161,7 @@ public void onConfigurationChanged(Configuration configuration) {
     Yodo1BridgeUtils.onActivityConfigurationChanged(this, configuration);
 }
 ```
-### 3. sdk initialisation 
+### 3. sdk initialisation
 - The yodo1 sdk contains three separate modules, which are initialised separately. If there are no special circumstances, do not change the order of initialisation.
 ```Java
 /**
