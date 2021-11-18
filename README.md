@@ -399,7 +399,7 @@ The data structure of the callback is
 >  
 > in anti-addiction system if there return {\"result_type\":8002,\"event_action\":1,\"event_code\":1,"title":"example","content":"example"}.
 > You should display the UI with the returned title and content, then exit the game.
-> The code 8002 is triggered by the sdk actively. So if you encounter the code 8002 in the callback, please execute the same logic.
+> The code 8002 is triggered by the sdk actively. So if you encounter the code 8002 in the callback, please execute the corresponding logic according to the eventcode.
 
 ### 3.Players log in and log off
 The token for calculating the player's accumulated hours. sdk already handles the application level declaration cycle internally, the game only needs to handle the time period defined as the accumulated hours in its own game logic.
