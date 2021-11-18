@@ -15,7 +15,8 @@
   - Those with a return value: these are the simplest interfaces to call, returning the required data without delay and without interaction.
   - No return value without callback: such interfaces are generally information reporting interfaces, even if designed with callback data can be ignored to deal with.
   - No return value with callbacks: the mandatory interface is generally this type of interface, encapsulating the data type required for the interface to be called. In the registered dependencies, the business type is determined and the business logic is processed.
- ***As the yodo1 sdk is derived from the company's internal sdk, which mainly uses the Unity engine, there is still a lot of Unity naming and calling rules in the code. Note      that the gameObject and callbackName parameters are currently free to be named when called, and the same gameObject and callbackName can be determined in the callback first. ***
+  -  As the yodo1 sdk is derived from the company's internal sdk, ***which mainly uses the Unity engine, there is still a lot of Unity naming and calling rules in the code. Note      that the gameObject and callbackName parameters are currently free to be named when called, and the same gameObject and callbackName can be determined in the callback first.***
+
 
 
 ### 3. Related bridge file(Please contact our developers to request)
