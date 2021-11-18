@@ -254,7 +254,14 @@ After a successful login, the game processes the upload to the sdk and channel s
 */
 Yodo1UserCenter.sumbitUser(json);
 ```
-### 3. Logout function
+### 3. check if you are logged in
+```Java
+/**
+* Check if you are logged in
+*/
+boolean isloogin = Yodo1UserCenter.isLogin();
+```
+### 4. Logout function
 ```Java
 /**
 * Logout
@@ -263,7 +270,7 @@ Yodo1UserCenter.logout(gameObject,callbackName);
 ```
 The data structure of the callback is.
 //???
-### 4. Switching accounts
+### 5. Switching accounts
 ```Java
 /**
 * Switching accounts
@@ -271,13 +278,7 @@ The data structure of the callback is.
 Yodo1UserCenter.changeAccount(gameObject,callbackName);
 ```
 The data structure of the callback is the same as the callback when logging in.
-### 5. check if you are logged in
-```Java
-/**
-* Check if you are logged in
-*/
-boolean isloogin = Yodo1UserCenter.isLogin();
-```
+
 ### 6.open the leaderboard
 ```Java
 /**
@@ -331,7 +332,7 @@ boolean isCan = Yodo1UserCenter.isCaptureSupported();
 /**
 * Show saved game footage
 */
-Yodo1UserCenter.showRecordVideo();* 
+Yodo1UserCenter.showRecordVideo();
 ```
 ## IV. Anti-addiction access
 ### 1.Initialising the anti-addiction system - (***mandatory***)
