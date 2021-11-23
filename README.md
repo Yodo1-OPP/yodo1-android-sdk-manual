@@ -692,9 +692,6 @@ Yodo1Analytics.createRole(String roleName);
 
 Yodo1Analytics.setPlayerLevel(int level);
 
-Yodo1Analytics.onValidateInAppPurchase(String publicKey, String signature, String purchaseData, String price, String currency);
-
-Yodo1Analytics.onMissionCompleted(String missionId);
 ```
 ## VIII.Community sharing function access
 ### 1.Call to share
